@@ -1,0 +1,75 @@
+service: remote
+
+provider:
+  name: aws
+  region: us-west-1
+  runtime: nodejs8.10
+  stage: dev
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  dynamodb:
+    start:
+      inMemory: true
+      migrate: true
+      port: 8000
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+
+functions:
+  graphql:
+    handler: handler.apolloServer
+    role: ApolloServerRole
+    events:
+      - http:
+          cors: true
+          method: post
+          path: graphql
+
+resources:
+  ApolloServerRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: ApolloServer
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: ApolloServer
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                Resource:
+                  - 'arn:aws:dynamodb:us-west-1:*:table/Movies'
+                  - 'arn:aws:dynamodb:us-west-1:*:table/Movies/*'
+
+  Resources:
+    UserTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        KeySchema:
+          - AttributeName: MovieId
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: MovieId
+            AttributeType: S
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+        TableName: Movies
