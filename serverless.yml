@@ -4,22 +4,13 @@ provider:
   name: aws
   region: us-west-1
   runtime: nodejs8.10
-  stage: dev
 
 plugins:
-  - serverless-dynamodb-local
-  - serverless-offline
   - serverless-webpack
 
 custom:
-  dynamodb:
-    start:
-      inMemory: true
-      migrate: true
-      port: 8000
-  serverless-offline:
-    port: 4000
-  webpackIncludeModules: true
+  webpack:
+    includeModules: true
 
 functions:
   graphql:

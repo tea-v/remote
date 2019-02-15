@@ -1,6 +1,8 @@
 import client from './client';
 
-const getMovies = (args) => {};
+const getMovies = (args) => {
+  return [];
+};
 
 export default {
   Query: {

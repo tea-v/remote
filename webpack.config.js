@@ -7,9 +7,9 @@ const webpackNodeExternals = require('webpack-node-externals');
 module.exports = {
   entry: serverlessWebpack.lib.entries,
   externals: [webpackNodeExternals()],
+  mode: 'production',
   module: {
     rules: [
-      'imports-loader?graphql',
       {
         test: /\.ts$/,
         loader: 'ts-loader',
