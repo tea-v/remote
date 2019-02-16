@@ -1,22 +1,21 @@
 import { IFieldResolver } from 'graphql-tools';
 
+import { MoviesConnection, MoviesQueryArgs } from ':types/schema';
 import { query } from ':clients/aws/DynamoDB';
 
-type Args = {
-  after?: string;
-  first?: number;
-  releaseYear?: number;
-};
+const CURRENT_YEAR = new Date().getFullYear();
+const LIMIT = 20;
 
-const currentYear = new Date().getFullYear();
-
-const resolver: IFieldResolver<any, any> = async (_source, args: Args) => {
-  const { after, first = 20, releaseYear = currentYear } = args;
+const resolver: IFieldResolver<any, any> = async (
+  _source,
+  args: MoviesQueryArgs
+): Promise<MoviesConnection> => {
+  const { after, first, releaseYear } = args;
   const { Items, LastEvaluatedKey } = await query({
     ExpressionAttributeValues: {
-      ':releaseYear': releaseYear,
+      ':releaseYear': releaseYear || CURRENT_YEAR,
     },
-    Limit: first,
+    Limit: first || LIMIT,
     KeyConditionExpression: 'ReleaseYear = :releaseYear',
     ScanIndexForward: false,
     TableName: 'Movies',
@@ -24,7 +23,14 @@ const resolver: IFieldResolver<any, any> = async (_source, args: Args) => {
       ExclusiveStartKey: { CreatedAt: after },
     }),
   });
-  const edges = (Items || []).map((item) => {});
+  const edges = (Items || []).map(({ CreatedAt, Title }) => ({
+    cursor: CreatedAt,
+    node: {
+      createdAt: CreatedAt,
+      id: CreatedAt,
+      title: Title,
+    },
+  }));
   const pageInfo = {
     endCursor: LastEvaluatedKey && LastEvaluatedKey.CreatedAt,
     hasNextPage: !!LastEvaluatedKey,

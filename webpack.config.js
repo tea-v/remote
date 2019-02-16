@@ -38,6 +38,7 @@ module.exports = {
   resolve: {
     alias: {
       ':clients': path.resolve(__dirname, './clients'),
+      ':types': path.resolve(__dirname, './types'),
     },
     extensions: ['.graphql', '.js', '.ts'],
   },
