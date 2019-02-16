@@ -11,6 +11,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.graphql$/,
+        loader: 'graphql-tag/loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
@@ -34,7 +39,7 @@ module.exports = {
     alias: {
       ':clients': path.resolve(__dirname, './clients'),
     },
-    extensions: ['.js', '.ts'],
+    extensions: ['.graphql', '.js', '.ts'],
   },
   stats: 'minimal',
   target: 'node',
