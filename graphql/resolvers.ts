@@ -1,11 +1,5 @@
-import client from './client';
-
-const getMovies = (args) => {
-  return [];
-};
+import Query from './Query';
 
 export default {
-  Query: {
-    movies: (_, args) => getMovies(args),
-  },
+  Query,
 };

@@ -31,7 +31,11 @@ module.exports = {
     path: path.join(__dirname, '.webpack'),
   },
   resolve: {
+    alias: {
+      ':clients': path.resolve(__dirname, './clients'),
+    },
     extensions: ['.js', '.ts'],
   },
+  stats: 'minimal',
   target: 'node',
 };

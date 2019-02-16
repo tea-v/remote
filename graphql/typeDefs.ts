@@ -1,44 +1,43 @@
-export default `
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-}
+import { gql } from 'apollo-server-lambda';
 
-interface Connection {
-  pageInfo: PageInfo!
-}
+export default gql`
+  type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+  }
 
-interface Edge {
-  cursor: String!
-}
+  interface Connection {
+    pageInfo: PageInfo!
+  }
 
-interface Node {
-  id: ID!
-}
+  interface Edge {
+    cursor: String!
+  }
 
-type Movie implements Node {
-  createdAt: Int!
-  title: String!
-}
+  interface Node {
+    id: ID!
+  }
 
-type MoviesEdge implements Edge {
-  node: Movie!
-}
+  type Movie implements Node {
+    createdAt: Int!
+    title: String!
+  }
 
-type MoviesConnection implements Connection {
-  edges: [MoviesEdge!]!
-}
+  type MoviesEdge implements Edge {
+    node: Movie!
+  }
 
-type Query {
-  movies(
-    after: String,
-    first: Int
-  ): MoviesConnection!
-}
+  type MoviesConnection implements Connection {
+    edges: [MoviesEdge]!
+  }
 
-schema {
-  query: Query
-}
+  type Query {
+    movies(after: String, first: Int, releaseYear: Int): MoviesConnection!
+  }
+
+  schema {
+    query: Query
+  }
 `;
