@@ -25,7 +25,7 @@ export interface Query {
 }
 
 export interface MoviesConnection extends Connection {
-  edges: (Maybe<MoviesEdge>)[];
+  edges: MoviesEdge[];
 }
 
 export interface PageInfo {

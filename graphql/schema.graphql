@@ -27,7 +27,7 @@ type MoviesEdge implements Edge {
 }
 
 type MoviesConnection implements Connection {
-  edges: [MoviesEdge]!
+  edges: [MoviesEdge!]!
 }
 
 type Query {
