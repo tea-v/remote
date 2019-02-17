@@ -27,13 +27,6 @@ functions:
     handler: handler.apolloServer
     events:
       - http:
-          method: get
-          path: graphql
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApolloServerAuthorizer
-      - http:
           method: post
           path: graphql
           cors: true
