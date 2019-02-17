@@ -79,12 +79,6 @@ resources:
             AttributeType: S
           - AttributeName: CreatedAt
             AttributeType: N
-          - AttributeName: Genre
-            AttributeType: S
-          - AttributeName: ReleaseYear
-            AttributeType: N
-          - AttributeName: Title
-            AttributeType: S
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
