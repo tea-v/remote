@@ -70,13 +70,17 @@ resources:
       Properties:
         TableName: Movies
         KeySchema:
-          - AttributeName: ReleaseYear
+          - AttributeName: MovieId
             KeyType: HASH
           - AttributeName: CreatedAt
             KeyType: RANGE
         AttributeDefinitions:
+          - AttributeName: MovieId
+            AttributeType: S
           - AttributeName: CreatedAt
             AttributeType: N
+          - AttributeName: Genre
+            AttributeType: S
           - AttributeName: ReleaseYear
             AttributeType: N
           - AttributeName: Title
