@@ -3,7 +3,7 @@ Resources:
     Type: AWS::ApiGateway::Authorizer
     Properties:
       IdentitySource: method.request.header.Authorization
-      Name: ApolloServerAuthorizer
+      Name: teav.tv
       ProviderARNs:
         - Fn::GetAtt: [CognitoUserPool, Arn]
       RestApiId:
@@ -39,10 +39,8 @@ Resources:
                   - Fn::Join:
                       - ''
                       - - Fn::GetAtt: [MoviesBucket, Arn]
-                        - /private/
-                        - $
-                        - '{cognito-identity.amazonaws.com:sub}/*'
-          PolicyName: CognitoAuthenticatedRole
+                        - '/*'
+          PolicyName: teav.tv
 
   CognitoIdentityPool:
     Type: AWS::Cognito::IdentityPool
@@ -53,7 +51,7 @@ Resources:
             Ref: CognitoUserPoolClient
           ProviderName:
             Fn::GetAtt: [CognitoUserPool, ProviderName]
-      IdentityPoolName: CognitoIdentityPool
+      IdentityPoolName: teav.tv
 
   CognitoIdentityPoolRoles:
     Type: AWS::Cognito::IdentityPoolRoleAttachment
@@ -77,14 +75,14 @@ Resources:
           RequireLowercase: true
           RequireNumbers: true
           RequireUppercase: false
-      UserPoolName: CognitoUserPool
+      UserPoolName: teav.tv
       UsernameAttributes:
         - email
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      ClientName: CognitoUserPoolClient
+      ClientName: teav.tv
       ExplicitAuthFlows:
         - ADMIN_NO_SRP_AUTH
       GenerateSecret: false

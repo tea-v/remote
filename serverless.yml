@@ -2,7 +2,9 @@ service: remote
 
 custom:
   webpack:
-    includeModules: true
+    includeModules:
+      forceExclude:
+        - aws-sdk
 
 functions:
   graphql:
