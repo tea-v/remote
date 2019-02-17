@@ -4,6 +4,8 @@ provider:
   name: aws
   region: us-west-1
   runtime: nodejs8.10
+  apiGateway:
+    minimumCompressionSize: 0
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -23,15 +25,42 @@ custom:
 functions:
   graphql:
     handler: handler.apolloServer
-    role: ApolloServerRole
     events:
       - http:
           cors: true
           method: post
           path: graphql
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApolloServerAuthorizer
 
 resources:
   Resources:
+    CognitoUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: ${self:service}
+
+    CognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:service}
+        GenerateSecret: false
+        UserPoolId:
+          Ref: CognitoUserPool
+
+    ApolloServerAuthorizer:
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: ${self:service}
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - Fn::GetAtt: [CognitoUserPool, Arn]
+        IdentitySource: method.request.header.Authorization
+
     MoviesTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
