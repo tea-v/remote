@@ -4,6 +4,7 @@ provider:
   name: aws
   region: us-east-1
   runtime: nodejs8.10
+  stage: prod
   apiGateway:
     minimumCompressionSize: 0
   iamRoleStatements:
@@ -26,9 +27,16 @@ functions:
     handler: handler.apolloServer
     events:
       - http:
-          cors: true
+          method: get
+          path: graphql
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApolloServerAuthorizer
+      - http:
           method: post
           path: graphql
+          cors: true
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId:
