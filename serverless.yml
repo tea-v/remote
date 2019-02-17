@@ -12,8 +12,7 @@ provider:
         - dynamodb:GetItem
         - dynamodb:Query
       Resource:
-        Resource:
-          - Fn::GetAtt: [MoviesTable, Arn]
+        - Fn::GetAtt: [MoviesTable, Arn]
 
 plugins:
   - serverless-webpack

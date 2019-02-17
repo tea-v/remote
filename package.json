@@ -35,6 +35,7 @@
   },
   "scripts": {
     "codegen": "gql-gen --config codegen.yml",
-    "deploy": "serverless deploy"
+    "deploy": "sls deploy",
+    "remove": "sls remove"
   }
 }
