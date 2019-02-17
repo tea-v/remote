@@ -1,23 +1,5 @@
 service: remote
 
-provider:
-  name: aws
-  region: us-east-1
-  runtime: nodejs8.10
-  stage: prod
-  apiGateway:
-    minimumCompressionSize: 0
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:GetItem
-        - dynamodb:Query
-      Resource:
-        - Fn::GetAtt: [MoviesTable, Arn]
-
-plugins:
-  - serverless-webpack
-
 custom:
   webpack:
     includeModules: true
@@ -27,66 +9,33 @@ functions:
     handler: handler.apolloServer
     events:
       - http:
-          method: post
-          path: graphql
-          cors: true
           authorizer:
-            type: COGNITO_USER_POOLS
             authorizerId:
               Ref: ApolloServerAuthorizer
+            type: COGNITO_USER_POOLS
+          cors: true
+          method: post
+          path: graphql
+
+plugins:
+  - serverless-webpack
+
+provider:
+  apiGateway:
+    minimumCompressionSize: 0
+  iamRoleStatements:
+    - Action:
+        - dynamodb:GetItem
+        - dynamodb:Query
+      Effect: Allow
+      Resource:
+        - Fn::GetAtt: [MoviesTable, Arn]
+  name: aws
+  region: us-east-1
+  runtime: nodejs8.10
+  stage: prod
 
 resources:
-  Resources:
-    CognitoUserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: ${self:service}
-        AdminCreateUserConfig:
-          AllowAdminCreateUserOnly: true
-        AutoVerifiedAttributes:
-          - email
-        UsernameAttributes:
-          - email
-        Policies:
-          PasswordPolicy:
-            MinimumLength: 10
-            RequireUppercase: false
-
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: teav
-        UserPoolId:
-          Ref: CognitoUserPool
-        ExplicitAuthFlows:
-          - ADMIN_NO_SRP_AUTH
-        GenerateSecret: false
-
-    ApolloServerAuthorizer:
-      Type: AWS::ApiGateway::Authorizer
-      Properties:
-        Name: ${self:service}
-        RestApiId:
-          Ref: ApiGatewayRestApi
-        Type: COGNITO_USER_POOLS
-        ProviderARNs:
-          - Fn::GetAtt: [CognitoUserPool, Arn]
-        IdentitySource: method.request.header.Authorization
-
-    MoviesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: Movies
-        KeySchema:
-          - AttributeName: MovieId
-            KeyType: HASH
-          - AttributeName: CreatedAt
-            KeyType: RANGE
-        AttributeDefinitions:
-          - AttributeName: MovieId
-            AttributeType: S
-          - AttributeName: CreatedAt
-            AttributeType: N
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+  - ${file(resources/aws/cognito.yml)}
+  - ${file(resources/aws/dynamodb.yml)}
+  - ${file(resources/aws/s3.yml)}

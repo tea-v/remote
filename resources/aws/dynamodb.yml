@@ -1,0 +1,18 @@
+Resources:
+  MoviesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: CreatedAt
+          AttributeType: N
+        - AttributeName: MovieId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: MovieId
+          KeyType: HASH
+        - AttributeName: CreatedAt
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 1
+      TableName: Movies

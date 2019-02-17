@@ -1,0 +1,17 @@
+Resources:
+  MoviesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - POST
+              - PUT
+            AllowedOrigins:
+              - '*'
+            MaxAge: 31557600
