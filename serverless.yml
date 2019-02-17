@@ -52,6 +52,16 @@ resources:
             MinimumLength: 10
             RequireUppercase: false
 
+    CognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: teav
+        UserPoolId:
+          Ref: CognitoUserPool
+        ExplicitAuthFlows:
+          - ADMIN_NO_SRP_AUTH
+        GenerateSecret: false
+
     ApolloServerAuthorizer:
       Type: AWS::ApiGateway::Authorizer
       Properties:
