@@ -2,7 +2,7 @@ service: remote
 
 provider:
   name: aws
-  region: us-west-1
+  region: us-east-1
   runtime: nodejs8.10
   apiGateway:
     minimumCompressionSize: 0
@@ -12,8 +12,8 @@ provider:
         - dynamodb:GetItem
         - dynamodb:Query
       Resource:
-        - 'arn:aws:dynamodb:us-west-1:*:table/Movies'
-        - 'arn:aws:dynamodb:us-west-1:*:table/Movies/*'
+        Resource:
+          - Fn::GetAtt: [MoviesTable, Arn]
 
 plugins:
   - serverless-webpack
@@ -41,6 +41,10 @@ resources:
       Type: AWS::Cognito::UserPool
       Properties:
         UserPoolName: ${self:service}
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
 
     CognitoUserPoolClient:
       Type: AWS::Cognito::UserPoolClient
@@ -62,7 +66,7 @@ resources:
         IdentitySource: method.request.header.Authorization
 
     MoviesTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: AWS::DynamoDB::Table
       Properties:
         TableName: Movies
         KeySchema:
@@ -78,5 +82,5 @@ resources:
           - AttributeName: Title
             AttributeType: S
         ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
