@@ -31,7 +31,7 @@ type MoviesConnection implements Connection {
 }
 
 type Query {
-  movies(after: String, first: Int, releaseYear: Int): MoviesConnection!
+  movies(after: String, first: Int = 20, releaseYear: Int!): MoviesConnection!
 }
 
 schema {

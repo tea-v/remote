@@ -55,7 +55,7 @@ export interface Movie extends Node {
 export interface MoviesQueryArgs {
   after?: Maybe<string>;
 
-  first?: Maybe<number>;
+  first?: number;
 
-  releaseYear?: Maybe<number>;
+  releaseYear: number;
 }

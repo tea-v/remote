@@ -3,19 +3,16 @@ import { IFieldResolver } from 'graphql-tools';
 import { MoviesConnection, MoviesQueryArgs } from ':types/schema';
 import { query } from ':clients/aws/DynamoDB';
 
-const CURRENT_YEAR = new Date().getFullYear();
-const LIMIT = 20;
-
-const resolver: IFieldResolver<any, any> = async (
+const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
   _source,
-  args: MoviesQueryArgs
+  args
 ): Promise<MoviesConnection> => {
   const { after, first, releaseYear } = args;
   const { Items, LastEvaluatedKey } = await query({
     ExpressionAttributeValues: {
-      ':releaseYear': releaseYear || CURRENT_YEAR,
+      ':releaseYear': releaseYear,
     },
-    Limit: first || LIMIT,
+    Limit: first,
     KeyConditionExpression: 'ReleaseYear = :releaseYear',
     ScanIndexForward: false,
     TableName: 'Movies',
