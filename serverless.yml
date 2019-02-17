@@ -41,18 +41,16 @@ resources:
       Type: AWS::Cognito::UserPool
       Properties:
         UserPoolName: ${self:service}
-        UsernameAttributes:
-          - email
+        AdminCreateUserConfig:
+          AllowAdminCreateUserOnly: true
         AutoVerifiedAttributes:
           - email
-
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: ${self:service}
-        GenerateSecret: false
-        UserPoolId:
-          Ref: CognitoUserPool
+        UsernameAttributes:
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 10
+            RequireUppercase: false
 
     ApolloServerAuthorizer:
       Type: AWS::ApiGateway::Authorizer
