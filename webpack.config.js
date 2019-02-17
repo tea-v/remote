@@ -16,16 +16,13 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true,
-        },
-      },
-      {
+        test: /\.(js|ts)$/,
         loader: 'babel-loader',
         options: {
-          presets: [['env', { targets: { node: '8.10' } }]],
+          presets: [
+            ['@babel/typescript'],
+            ['env', { targets: { node: '8.10' } }],
+          ],
         },
       },
     ],
