@@ -27,6 +27,7 @@ functions:
       USER_POOL_ID:
         Ref: CognitoUserPool
     memorySize: 128
+    timeout: 5
 
 package:
   individually: true
