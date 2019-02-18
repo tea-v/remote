@@ -28,7 +28,10 @@ functions:
           path: graphql
 
 plugins:
-  - serverless-webpack
+  localPath: ./plugins
+  modules:
+    - serverless-version-lambdas
+    - serverless-webpack
 
 provider:
   apiGateway:

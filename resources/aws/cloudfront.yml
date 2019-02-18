@@ -18,11 +18,7 @@ Resources:
             QueryString: 'false'
           LambdaFunctionAssociations:
             - EventType: viewer-request
-              LambdaFunctionARN:
-                Fn::Join:
-                  - ''
-                  - - Fn::GetAtt: [AuthorizeUserLambdaFunction, Arn]
-                    - :$LATEST
+              LambdaFunctionARN: AuthorizeUserLambdaFunction
           TargetOriginId:
             Ref: MoviesBucket
           ViewerProtocolPolicy: redirect-to-https

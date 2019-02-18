@@ -42,6 +42,7 @@
   "scripts": {
     "codegen": "gql-gen --config codegen.yml",
     "deploy": "sls deploy",
+    "package": "sls package",
     "remove": "sls remove"
   }
 }
