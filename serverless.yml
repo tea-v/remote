@@ -21,10 +21,6 @@ functions:
 
   authorizeUser:
     handler: functions/authorizeUser.handler
-    environment:
-      COGNITO_URL: https://cognito-idp.${self:provider.region}.amazonaws.com
-      USER_POOL_ID:
-        Ref: CognitoUserPool
     memorySize: 128
     timeout: 5
 
