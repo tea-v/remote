@@ -1,6 +1,8 @@
-import findKey from 'lodash/findKey';
-import flatMap from 'lodash/flatMap';
-import get from 'lodash/get';
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const findKey = require('lodash/findKey');
+const flatMap = require('lodash/flatMap');
+const get = require('lodash/get');
 
 function getAssociations(resources) {
   const distributions = resources.filter(
