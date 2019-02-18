@@ -3,11 +3,12 @@
 const findKey = require('lodash/findKey');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
+const pickBy = require('lodash/pickBy');
 
 function getAssociations(resources) {
-  const distributions = resources.filter(
-    ({ Type }) => Type === 'AWS::CloudFront::Distribution'
-  );
+  const distributions = pickBy(resources, {
+    Type: 'AWS::CloudFront::Distribution',
+  });
   return flatMap(distributions, (distribution) => {
     const associations = get(
       distribution,
