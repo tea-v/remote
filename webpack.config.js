@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const dotenv = require('dotenv').config();
 const path = require('path');
 const serverlessWebpack = require('serverless-webpack');
+const webpack = require('webpack');
 const webpackNodeExternals = require('webpack-node-externals');
+
+if (dotenv.error) {
+  throw dotenv.error;
+}
 
 module.exports = {
   entry: serverlessWebpack.lib.entries,
@@ -32,6 +38,12 @@ module.exports = {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      PUBLIC_KEYS: process.env.PUBLIC_KEYS,
+      USER_POOL_URL: JSON.stringify(process.env.USER_POOL_URL),
+    }),
+  ],
   resolve: {
     alias: {
       ':clients': path.resolve(__dirname, './clients'),
