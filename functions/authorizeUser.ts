@@ -2,7 +2,7 @@ import jwkToPem from 'jwk-to-pem';
 import jwt from 'jsonwebtoken';
 
 const getCertificates = () =>
-  PUBLIC_KEYS.reduce(
+  USER_POOL_PUBLIC_KEYS.reduce(
     (certificates, publicKey) => {
       const { e, kid, kty, n } = publicKey;
       certificates[kid] = jwkToPem({ e, kty, n });

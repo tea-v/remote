@@ -40,7 +40,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      PUBLIC_KEYS: process.env.PUBLIC_KEYS,
+      USER_POOL_PUBLIC_KEYS: process.env.USER_POOL_PUBLIC_KEYS,
       USER_POOL_URL: JSON.stringify(process.env.USER_POOL_URL),
     }),
   ],
