@@ -26,6 +26,7 @@ functions:
         Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com
       USER_POOL_ID:
         Ref: CognitoUserPool
+    memorySize: 128
 
 package:
   individually: true
