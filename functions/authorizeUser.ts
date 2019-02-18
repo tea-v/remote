@@ -39,38 +39,28 @@ export default async (
   const { request } = event.Records[0].cf;
   const { headers } = request;
   if (!headers.authorization) {
-    callback(null, unauthorizedResponse);
-    return false;
+    return callback(null, unauthorizedResponse);
   }
   const token = headers.authorization[0].value.slice(7);
   const decodedJWT = jwt.decode(token, { complete: true });
-  if (!decodedJWT || typeof decodedJWT === 'string') {
-    callback(null, unauthorizedResponse);
-    return false;
+  if (
+    !decodedJWT ||
+    typeof decodedJWT === 'string' ||
+    decodedJWT.payload.iss !== USER_POOL_URL ||
+    decodedJWT.payload.token_use !== 'access'
+  ) {
+    return callback(null, unauthorizedResponse);
   }
-  if (decodedJWT.payload.iss !== USER_POOL_URL) {
-    callback(null, unauthorizedResponse);
-    return false;
-  }
-  if (decodedJWT.payload.token_use !== 'access') {
-    callback(null, unauthorizedResponse);
-    return false;
-  }
-  const {
-    header: { kid },
-  } = decodedJWT;
-  const certificate = (await getCertificates())[kid];
+  const certificate = (await getCertificates())[decodedJWT.header.kid];
   if (!certificate) {
-    callback(null, unauthorizedResponse);
-    return false;
+    return callback(null, unauthorizedResponse);
   }
   jwt.verify(token, certificate, { issuer: USER_POOL_URL }, (err) => {
     if (err) {
       callback(null, unauthorizedResponse);
-      return false;
+    } else {
+      delete headers.authorization;
+      callback(null, request);
     }
-    delete headers.authorization;
-    callback(null, request);
-    return true;
   });
 };
