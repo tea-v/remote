@@ -35,4 +35,8 @@ Resources:
                 Fn::GetAtt:
                   [MoviesBucketOriginAccessIdentity, S3CanonicalUserId]
             Resource:
-              Fn::Join: ['', ['arn:aws:s3:::', Ref: MoviesBucket, '/*']]
+              Fn::Join:
+                - ''
+                - - 'arn:aws:s3:::'
+                  - Ref: MoviesBucket
+                  - /*
