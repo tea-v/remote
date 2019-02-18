@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, import/no-extraneous-dependencies */
 
 const findKey = require('lodash/findKey');
 const flatMap = require('lodash/flatMap');
