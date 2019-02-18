@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, import/no-extraneous-dependencies */
 
 const _ = require('lodash');
 
@@ -49,16 +49,16 @@ function getVersion(resources, arn) {
     : undefined;
 }
 
-class VersionLambdas {
+class VersionFunctions {
   constructor(serverless, options) {
     this.hooks = {
-      'before:package:finalize': this.updateLambdaVersion.bind(this),
+      'before:package:finalize': this.updateFunctionVersion.bind(this),
     };
     this.options = options;
     this.serverless = serverless;
   }
 
-  updateLambdaVersion() {
+  updateFunctionVersion() {
     const compiledResources = this.serverless.service.provider
       .compiledCloudFormationTemplate.Resources;
     const resources = this.serverless.service.resources.Resources;
@@ -74,4 +74,4 @@ class VersionLambdas {
   }
 }
 
-module.exports = VersionLambdas;
+module.exports = VersionFunctions;

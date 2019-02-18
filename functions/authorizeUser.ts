@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import jwkToPEM from 'jwk-to-pem';
+import jwkToPem from 'jwk-to-pem';
 import jwt from 'jsonwebtoken';
 import memoize from 'lodash/memoize';
 
@@ -21,7 +21,7 @@ const getCertificates = memoize(async () => {
   return publicKeys.reduce(
     (certificates, publicKey) => {
       const { e, kid, kty, n } = publicKey;
-      certificates[kid] = jwkToPEM({ e, kty, n });
+      certificates[kid] = jwkToPem({ e, kty, n });
       return certificates;
     },
     {} as { [key: string]: string }

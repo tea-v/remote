@@ -27,10 +27,13 @@ functions:
           method: post
           path: graphql
 
+package:
+  individually: true
+
 plugins:
   localPath: ./plugins
   modules:
-    - serverless-version-lambdas
+    - serverless-version-functions
     - serverless-webpack
 
 provider:
