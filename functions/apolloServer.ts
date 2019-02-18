@@ -8,7 +8,7 @@ const server = new ApolloServer({
   typeDefs,
 });
 
-export default server.createHandler({
+export const handler = server.createHandler({
   cors: {
     origin: '*',
   },

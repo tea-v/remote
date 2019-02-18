@@ -33,7 +33,7 @@ const unauthorizedResponse = {
   statusDescription: 'Unauthorized',
 };
 
-export default async (
+export const handler = async (
   event: { [key: string]: any },
   _context: unknown,
   callback: (error: null, result: object) => any

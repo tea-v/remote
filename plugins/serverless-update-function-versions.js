@@ -49,7 +49,7 @@ function getVersion(resources, arn) {
     : undefined;
 }
 
-class VersionFunctions {
+class UpdateFunctionVersions {
   constructor(serverless, options) {
     this.hooks = {
       'before:package:finalize': this.updateFunctionVersion.bind(this),
@@ -74,4 +74,4 @@ class VersionFunctions {
   }
 }
 
-module.exports = VersionFunctions;
+module.exports = UpdateFunctionVersions;

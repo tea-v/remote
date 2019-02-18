@@ -7,16 +7,8 @@ custom:
         - aws-sdk
 
 functions:
-  authorizeUser:
-    handler: handler.authorizeUser
-    environment:
-      COGNITO_URL:
-        Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com
-      USER_POOL_ID:
-        Ref: CognitoUserPool
-
-  graphql:
-    handler: handler.apolloServer
+  apolloServer:
+    handler: functions/apolloServer.handler
     events:
       - http:
           authorizer:
@@ -27,13 +19,21 @@ functions:
           method: post
           path: graphql
 
+  authorizeUser:
+    handler: functions/authorizeUser.handler
+    environment:
+      COGNITO_URL:
+        Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+
 package:
   individually: true
 
 plugins:
   localPath: ./plugins
   modules:
-    - serverless-version-functions
+    - serverless-update-function-versions
     - serverless-webpack
 
 provider:
