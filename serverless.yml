@@ -7,13 +7,19 @@ custom:
         - aws-sdk
 
 functions:
+  authorizeUser:
+    handler: handler.authorizeUser
+    environment:
+      USER_POOL_URL:
+        Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com/${CognitoUserPool}
+
   graphql:
     handler: handler.apolloServer
     events:
       - http:
           authorizer:
             authorizerId:
-              Ref: ApolloServerAuthorizer
+              Ref: ApiGatewayAuthorizer
             type: COGNITO_USER_POOLS
           cors: true
           method: post
@@ -38,6 +44,7 @@ provider:
   stage: prod
 
 resources:
+  - ${file(resources/aws/cloudfront.yml)}
   - ${file(resources/aws/cognito.yml)}
   - ${file(resources/aws/dynamodb.yml)}
   - ${file(resources/aws/s3.yml)}

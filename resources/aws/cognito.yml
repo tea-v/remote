@@ -1,66 +1,14 @@
 Resources:
-  ApolloServerAuthorizer:
+  ApiGatewayAuthorizer:
     Type: AWS::ApiGateway::Authorizer
     Properties:
       IdentitySource: method.request.header.Authorization
-      Name: teav.tv
+      Name: teav
       ProviderARNs:
         - Fn::GetAtt: [CognitoUserPool, Arn]
       RestApiId:
         Ref: ApiGatewayRestApi
       Type: COGNITO_USER_POOLS
-
-  CognitoAuthenticatedRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Action:
-              - sts:AssumeRoleWithWebIdentity
-            Condition:
-              ForAnyValue:StringLike:
-                cognito-identity.amazonaws.com:amr: authenticated
-              StringEquals:
-                cognito-identity.amazonaws.com:aud:
-                  Ref: CognitoIdentityPool
-            Effect: Allow
-            Principal:
-              Federated: cognito-identity.amazonaws.com
-      Path: /
-      Policies:
-        - PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Action:
-                  - s3:GetObject
-                Effect: Allow
-                Resource:
-                  - Fn::Join:
-                      - ''
-                      - - Fn::GetAtt: [MoviesBucket, Arn]
-                        - '/*'
-          PolicyName: teav.tv
-
-  CognitoIdentityPool:
-    Type: AWS::Cognito::IdentityPool
-    Properties:
-      AllowUnauthenticatedIdentities: false
-      CognitoIdentityProviders:
-        - ClientId:
-            Ref: CognitoUserPoolClient
-          ProviderName:
-            Fn::GetAtt: [CognitoUserPool, ProviderName]
-      IdentityPoolName: teav.tv
-
-  CognitoIdentityPoolRoles:
-    Type: AWS::Cognito::IdentityPoolRoleAttachment
-    Properties:
-      IdentityPoolId:
-        Ref: CognitoIdentityPool
-      Roles:
-        authenticated:
-          Fn::GetAtt: [CognitoAuthenticatedRole, Arn]
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
@@ -74,15 +22,15 @@ Resources:
           MinimumLength: 10
           RequireLowercase: true
           RequireNumbers: true
-          RequireUppercase: false
-      UserPoolName: teav.tv
+          RequireUppercase: true
+      UserPoolName: teav
       UsernameAttributes:
         - email
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      ClientName: teav.tv
+      ClientName: teav
       ExplicitAuthFlows:
         - ADMIN_NO_SRP_AUTH
       GenerateSecret: false

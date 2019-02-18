@@ -1,0 +1,15 @@
+import { ApolloServer } from 'apollo-server-lambda';
+
+import resolvers from ':graphql/resolvers';
+import typeDefs from ':graphql/schema.graphql';
+
+const server = new ApolloServer({
+  resolvers,
+  typeDefs,
+});
+
+export default server.createHandler({
+  cors: {
+    origin: '*',
+  },
+});

@@ -1,17 +1,38 @@
 Resources:
   MoviesBucket:
     Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
     Properties:
       CorsConfiguration:
         CorsRules:
           - AllowedHeaders:
               - '*'
             AllowedMethods:
-              - DELETE
               - GET
-              - HEAD
-              - POST
-              - PUT
             AllowedOrigins:
               - '*'
-            MaxAge: 31557600
+            MaxAge: 3600
+
+  MoviesBucketOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment:
+          Ref: MoviesBucket
+
+  MoviesBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: MoviesBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:GetObject
+            Effect: Allow
+            Principal:
+              CanonicalUser:
+                Fn::GetAtt:
+                  [MoviesBucketOriginAccessIdentity, S3CanonicalUserId]
+            Resource:
+              Fn::Join: ['', ['arn:aws:s3:::', Ref: MoviesBucket, '/*']]

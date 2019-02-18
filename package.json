@@ -4,16 +4,20 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.2",
-    "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.404.0",
     "graphql": "^14.1.1",
-    "graphql-tag": "^2.10.1",
-    "graphql-tools": "^4.0.4"
+    "jsonwebtoken": "^8.4.0",
+    "jwk-to-pem": "^2.0.1",
+    "lodash": "^4.17.11",
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
     "@babel/preset-typescript": "^7.3.3",
     "@types/graphql": "^14.0.7",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/lodash": "^4.14.121",
+    "@types/node-fetch": "^2.1.6",
     "@typescript-eslint/eslint-plugin": "^1.3.0",
     "@typescript-eslint/parser": "^1.3.0",
     "babel-loader": "^8.0.5",
@@ -26,6 +30,8 @@
     "graphql-code-generator": "^0.16.1",
     "graphql-codegen-typescript-common": "^0.16.1",
     "graphql-codegen-typescript-server": "^0.16.1",
+    "graphql-tag": "^2.10.1",
+    "graphql-tools": "^4.0.4",
     "imports-loader": "^0.8.0",
     "prettier": "^1.16.4",
     "serverless-webpack": "^5.2.0",

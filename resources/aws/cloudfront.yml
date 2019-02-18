@@ -1,0 +1,35 @@
+Resources:
+  MoviesDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            Headers:
+              - Access-Control-Request-Headers
+              - Access-Control-Request-Method
+              - Origin
+            QueryString: 'false'
+          LambdaFunctionAssociations:
+            - EventType: viewer-request
+              LambdaFunctionARN:
+                Fn:Get:Att: [authorizeUserLambdaFunction, Arn]
+          TargetOriginId: MoviesBucket
+          ViewerProtocolPolicy: redirect-to-https
+        Enabled: true
+        Origins:
+          - DomainName:
+              Fn::Sub: ${MoviesBucket}.s3.${self:provider.region}.amazonaws.com
+            Id: MoviesBucket
+            S3OriginConfig:
+              OriginAccessIdentity:
+                Fn::Sub: origin-access-identity/cloudfront/${MoviesBucketOriginAccessIdentity}
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true

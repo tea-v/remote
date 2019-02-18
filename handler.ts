@@ -1,15 +1,7 @@
-import { ApolloServer } from 'apollo-server-lambda';
+import apolloServer from ':functions/apolloServer';
+import authorizeUser from ':functions/authorizeUser';
 
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/schema.graphql';
-
-const server = new ApolloServer({
-  resolvers,
-  typeDefs,
-});
-
-exports.apolloServer = server.createHandler({
-  cors: {
-    origin: '*',
-  },
-});
+exports = {
+  apolloServer,
+  authorizeUser,
+};
