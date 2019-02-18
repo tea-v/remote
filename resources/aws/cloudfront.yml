@@ -19,17 +19,30 @@ Resources:
           LambdaFunctionAssociations:
             - EventType: viewer-request
               LambdaFunctionARN:
-                Fn:Get:Att: [authorizeUserLambdaFunction, Arn]
-          TargetOriginId: MoviesBucket
+                Fn::Join:
+                  - ''
+                  - - Fn::GetAtt: [AuthorizeUserLambdaFunction, Arn]
+                    - :$LATEST
+          TargetOriginId:
+            Ref: MoviesBucket
           ViewerProtocolPolicy: redirect-to-https
         Enabled: true
         Origins:
           - DomainName:
-              Fn::Sub: ${MoviesBucket}.s3.${self:provider.region}.amazonaws.com
-            Id: MoviesBucket
+              Fn::Join:
+                - ''
+                - - Ref: MoviesBucket
+                  - .s3.
+                  - ${self:provider.region}
+                  - .amazonaws.com
+            Id:
+              Ref: MoviesBucket
             S3OriginConfig:
               OriginAccessIdentity:
-                Fn::Sub: origin-access-identity/cloudfront/${MoviesBucketOriginAccessIdentity}
+                Fn::Join:
+                  - ''
+                  - - origin-access-identity/cloudfront/
+                    - Ref: MoviesBucketOriginAccessIdentity
         PriceClass: PriceClass_100
         ViewerCertificate:
           CloudFrontDefaultCertificate: true

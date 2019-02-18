@@ -10,8 +10,10 @@ functions:
   authorizeUser:
     handler: handler.authorizeUser
     environment:
-      USER_POOL_URL:
-        Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com/${CognitoUserPool}
+      COGNITO_URL:
+        Fn::Sub: https://cognito-idp.${self:provider.region}.amazonaws.com
+      USER_POOL_ID:
+        Ref: CognitoUserPool
 
   graphql:
     handler: handler.apolloServer

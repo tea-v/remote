@@ -5,11 +5,13 @@ import memoize from 'lodash/memoize';
 
 type PublicKey = { [key in 'alg' | 'e' | 'kid' | 'kty' | 'n' | 'use']: string };
 
-const { USER_POOL_URL } = process.env;
+const { COGNITO_URL, USER_POOL_ID } = process.env;
+
+const userPoolURL = `${COGNITO_URL}/${USER_POOL_ID}`;
 
 const getPublicKeys = async () => {
   const { keys }: { keys: PublicKey[] } = await fetch(
-    `${USER_POOL_URL}/.well-known/jwks.json`
+    `${userPoolURL}/.well-known/jwks.json`
   ).then((value) => value.json());
   return keys;
 };
@@ -46,7 +48,7 @@ export default async (
   if (
     !decodedJWT ||
     typeof decodedJWT === 'string' ||
-    decodedJWT.payload.iss !== USER_POOL_URL ||
+    decodedJWT.payload.iss !== userPoolURL ||
     decodedJWT.payload.token_use !== 'access'
   ) {
     return callback(null, unauthorizedResponse);
@@ -55,7 +57,7 @@ export default async (
   if (!certificate) {
     return callback(null, unauthorizedResponse);
   }
-  jwt.verify(token, certificate, { issuer: USER_POOL_URL }, (err) => {
+  jwt.verify(token, certificate, { issuer: userPoolURL }, (err) => {
     if (err) {
       callback(null, unauthorizedResponse);
     } else {
