@@ -38,7 +38,7 @@ module.exports = {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
   },
-  plugins: [new webpack.DefinePlugin()],
+  plugins: [new webpack.DefinePlugin({})],
   resolve: {
     alias: {
       ':clients': path.resolve(__dirname, './clients'),
