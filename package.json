@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
-    "aws-sdk": "^2.411.0",
+    "aws-sdk": "^2.412.0",
     "graphql": "^14.1.1"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "prettier": "^1.16.4",
     "serverless-webpack": "^5.2.0",
     "typescript": "^3.3.3333",
-    "webpack": "^4.29.5",
+    "webpack": "^4.29.6",
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
