@@ -1,0 +1,16 @@
+Resources:
+  MoviesSearch:
+    Type: AWS::Elasticsearch::Domain
+    Properties:
+      DomainName: movies
+      EBSOptions:
+        EBSEnabled: true
+        Iops: 0
+        VolumeSize: 10
+        VolumeType: gp2
+      ElasticsearchClusterConfig:
+        DedicatedMasterEnabled: false
+        InstanceCount: 1
+        InstanceType: t2.small.elasticsearch
+        ZoneAwarenessEnabled: false
+      ElasticsearchVersion: "6.4"

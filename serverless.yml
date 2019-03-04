@@ -18,23 +18,56 @@ functions:
           cors: true
           method: post
           path: graphql
+    iamRoleStatements:
+      - Action:
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Effect: Allow
+        Resource:
+          - Fn::GetAtt: [MoviesTable, Arn]
+    timeout: 5
+
+  streamElasticsearch:
+    handler: functions/streamElasticsearch.handler
+    events:
+      - stream:
+          arn:
+            Fn::GetAtt: [MoviesTable, StreamArn]
+          batchSize: 100
+          enabled: true
+          type: dynamodb
+    iamRoleStatements:
+      - Action:
+          - dynamodb:DescribeStream
+          - dynamodb:GetRecords
+          - dynamodb:GetShardIterator
+          - dynamodb:ListStreams
+        Effect: Allow
+        Resource:
+          - Fn::GetAtt: [MoviesTable, Arn]
+      - Action:
+          - es:ESHttpPost
+          - es:ESHttpPut
+        Effect: Allow
+        Resource:
+          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::Join:
+              - ""
+              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+                - /*
+    memorySize: 128
+    timeout: 60
 
 package:
   individually: true
 
 plugins:
+  - serverless-iam-roles-per-function
   - serverless-webpack
 
 provider:
   apiGateway:
     minimumCompressionSize: 0
-  iamRoleStatements:
-    - Action:
-        - dynamodb:GetItem
-        - dynamodb:Query
-      Effect: Allow
-      Resource:
-        - Fn::GetAtt: [MoviesTable, Arn]
   name: aws
   region: us-east-1
   runtime: nodejs8.10
@@ -43,3 +76,4 @@ provider:
 resources:
   - ${file(resources/aws/cognito.yml)}
   - ${file(resources/aws/dynamodb.yml)}
+  - ${file(resources/aws/elasticsearch.yml)}
