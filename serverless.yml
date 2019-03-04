@@ -29,6 +29,9 @@ functions:
 
   streamElasticsearch:
     handler: functions/streamElasticsearch.handler
+    environment:
+      ELASTICSEARCH_ENDPOINT:
+        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
     events:
       - stream:
           arn:

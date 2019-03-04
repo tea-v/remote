@@ -8,7 +8,11 @@ export const handler = async (
   callback: (error: Error | null, result: string | null) => any
 ) => {
   try {
-    pushStream({ event, endpoint: ELASTICSEARCH_ENDPOINT, refresh: false });
+    await pushStream({
+      endpoint: ELASTICSEARCH_ENDPOINT,
+      event,
+      refresh: false,
+    });
     callback(null, `Successfully processed ${event.Records.length} records.`);
   } catch (error) {
     callback(error, null);
