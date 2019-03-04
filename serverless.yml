@@ -9,6 +9,9 @@ custom:
 functions:
   apolloServer:
     handler: functions/apolloServer.handler
+    environment:
+      ELASTICSEARCH_ENDPOINT:
+        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
     events:
       - http:
           authorizer:

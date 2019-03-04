@@ -6,12 +6,16 @@
     "apollo-server-lambda": "^2.4.8",
     "aws-sdk": "^2.413.0",
     "dynamodb-stream-elasticsearch": "^2.3.0",
-    "graphql": "^14.1.1"
+    "elasticsearch": "^15.4.1",
+    "graphql": "^14.1.1",
+    "http-aws-es": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/elasticsearch": "^5.0.31",
     "@types/graphql": "^14.0.7",
+    "@types/http-aws-es": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
     "babel-loader": "^8.0.5",
