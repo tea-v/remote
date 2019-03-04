@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
-    "aws-sdk": "^2.412.0",
+    "aws-sdk": "^2.413.0",
     "graphql": "^14.1.1"
   },
   "devDependencies": {
@@ -16,14 +16,14 @@
     "babel-loader": "^8.0.5",
     "babel-preset-env": "^1.7.0",
     "dotenv": "^6.2.0",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "graphql-code-generator": "^0.17.0",
-    "graphql-codegen-typescript-common": "^0.17.0",
-    "graphql-codegen-typescript-server": "^0.17.0",
+    "graphql-code-generator": "^0.18.0",
+    "graphql-codegen-typescript-common": "^0.18.0",
+    "graphql-codegen-typescript-server": "^0.18.0",
     "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.4",
     "imports-loader": "^0.8.0",
