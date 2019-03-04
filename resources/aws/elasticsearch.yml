@@ -2,7 +2,7 @@ Resources:
   MoviesSearch:
     Type: AWS::Elasticsearch::Domain
     Properties:
-      DomainName: movies
+      DomainName: remote
       EBSOptions:
         EBSEnabled: true
         Iops: 0
