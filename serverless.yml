@@ -30,8 +30,8 @@ functions:
           - Fn::GetAtt: [MoviesTable, Arn]
     timeout: 5
 
-  streamElasticsearch:
-    handler: functions/streamElasticsearch.handler
+  indexMovies:
+    handler: functions/indexMovies.handler
     environment:
       ELASTICSEARCH_ENDPOINT:
         Fn::GetAtt: [MoviesSearch, DomainEndpoint]

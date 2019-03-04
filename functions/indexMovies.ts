@@ -12,8 +12,9 @@ export const handler = async (
       endpoint: ELASTICSEARCH_ENDPOINT,
       event,
       refresh: 'false',
+      type: 'movie',
     });
-    callback(null, `Successfully processed ${event.Records.length} records.`);
+    callback(null, `Successfully indexed ${event.Records.length} records.`);
   } catch (error) {
     callback(error, null);
   }
