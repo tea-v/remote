@@ -11,7 +11,7 @@ export const handler = async (
     await pushStream({
       endpoint: ELASTICSEARCH_ENDPOINT,
       event,
-      refresh: 'false',
+      refresh: false,
       type: 'movie',
     });
     callback(null, `Successfully indexed ${event.Records.length} records.`);
