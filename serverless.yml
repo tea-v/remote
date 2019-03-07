@@ -25,6 +25,7 @@ functions:
       - Action:
           - dynamodb:GetItem
           - dynamodb:Query
+          - es:ESHttpPost
         Effect: Allow
         Resource:
           - Fn::GetAtt: [MoviesTable, Arn]
