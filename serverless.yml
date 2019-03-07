@@ -25,10 +25,18 @@ functions:
       - Action:
           - dynamodb:GetItem
           - dynamodb:Query
-          - es:ESHttpPost
         Effect: Allow
         Resource:
           - Fn::GetAtt: [MoviesTable, Arn]
+      - Action:
+          - es:ESHttpPost
+        Effect: Allow
+        Resource:
+          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::Join:
+              - ""
+              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+                - /*
     timeout: 5
 
   indexMovies:
