@@ -14,7 +14,7 @@ const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
 ): Promise<MoviesConnection> => {
   const { after, first = 20 } = args;
   const {
-    hits: { hits },
+    hits: { hits, total },
   } = await elasticsearch.search({
     body: {
       query: {
@@ -23,10 +23,10 @@ const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
       search_after: after && +after,
     },
     index: 'movies',
-    size: first + 1,
+    size: first,
     sort: 'createdAt:desc',
   });
-  const edges: MoviesEdge[] = hits.slice(0, first).map(({ _source }) => {
+  const edges: MoviesEdge[] = hits.map(({ _source }) => {
     const { createdAt, id, title } = _source as Model.Movie;
     return {
       cursor: `${createdAt}`,
@@ -40,7 +40,7 @@ const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
   const endEdge = edges[edges.length - 1];
   const pageInfo: PageInfo = {
     endCursor: endEdge && endEdge.cursor,
-    hasNextPage: hits.length > first,
+    hasNextPage: first < total,
     hasPreviousPage: !!after && after.length > 0,
     startCursor: after,
   };
