@@ -19,15 +19,18 @@ interface Node {
 
 type Movie implements Node {
   createdAt: Int!
+  id: ID!
   title: String!
 }
 
 type MoviesEdge implements Edge {
+  cursor: String!
   node: Movie!
 }
 
 type MoviesConnection implements Connection {
   edges: [MoviesEdge!]!
+  pageInfo: PageInfo!
 }
 
 type Query {

@@ -26,6 +26,8 @@ export interface Query {
 
 export interface MoviesConnection extends Connection {
   edges: MoviesEdge[];
+
+  pageInfo: PageInfo;
 }
 
 export interface PageInfo {
@@ -39,11 +41,15 @@ export interface PageInfo {
 }
 
 export interface MoviesEdge extends Edge {
+  cursor: string;
+
   node: Movie;
 }
 
 export interface Movie extends Node {
   createdAt: number;
+
+  id: string;
 
   title: string;
 }
