@@ -26,7 +26,7 @@ const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
     size: first + 1,
     sort: 'createdAt:desc',
   });
-  const edges: MoviesEdge[] = hits.slice(0, -1).map(({ _source }) => {
+  const edges: MoviesEdge[] = hits.slice(0, first).map(({ _source }) => {
     const { createdAt, id, title } = _source as Model.Movie;
     return {
       cursor: `${createdAt}`,
