@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
-    "aws-sdk": "^2.418.0",
+    "aws-sdk": "^2.420.0",
     "dynamodb-stream-elasticsearch": "^2.3.0",
     "elasticsearch": "^15.4.1",
     "graphql": "^14.1.1",
