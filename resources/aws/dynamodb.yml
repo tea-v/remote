@@ -17,4 +17,4 @@ Resources:
         WriteCapacityUnits: 1
       StreamSpecification:
         StreamViewType: NEW_IMAGE
-      TableName: Movies
+      TableName: movies

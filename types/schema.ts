@@ -4,6 +4,10 @@ export type Maybe<T> = T | null;
 // Interfaces
 // ====================================================
 
+export interface Node {
+  id: string;
+}
+
 export interface Connection {
   pageInfo: PageInfo;
 }
@@ -12,16 +16,22 @@ export interface Edge {
   cursor: string;
 }
 
-export interface Node {
-  id: string;
-}
-
 // ====================================================
 // Types
 // ====================================================
 
 export interface Query {
+  movie?: Maybe<Movie>;
+
   movies: MoviesConnection;
+}
+
+export interface Movie extends Node {
+  createdAt: number;
+
+  id: string;
+
+  title: string;
 }
 
 export interface MoviesConnection extends Connection {
@@ -46,18 +56,15 @@ export interface MoviesEdge extends Edge {
   node: Movie;
 }
 
-export interface Movie extends Node {
-  createdAt: number;
-
-  id: string;
-
-  title: string;
-}
-
 // ====================================================
 // Arguments
 // ====================================================
 
+export interface MovieQueryArgs {
+  createdAt: number;
+
+  id: string;
+}
 export interface MoviesQueryArgs {
   after?: Maybe<string>;
 

@@ -34,6 +34,8 @@ type MoviesConnection implements Connection {
 }
 
 type Query {
+  movie(createdAt: Int!, id: ID!): Movie
+
   movies(after: String, first: Int = 20): MoviesConnection!
 }
 
