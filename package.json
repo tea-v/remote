@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
-    "aws-sdk": "^2.423.0",
+    "aws-sdk": "^2.424.0",
     "elasticsearch": "^15.4.1",
     "graphql": "^14.1.1",
     "http-aws-es": "^6.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
+    "@babel/core": "^7.4.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/elasticsearch": "^5.0.32",
     "@types/graphql": "^14.0.7",
@@ -34,7 +34,7 @@
     "prettier": "^1.16.4",
     "serverless-iam-roles-per-function": "^1.0.4",
     "serverless-webpack": "^5.2.0",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.3.4000",
     "webpack": "^4.29.6",
     "webpack-node-externals": "^1.7.2"
   },
