@@ -39,6 +39,24 @@ functions:
                 - /*
     timeout: 5
 
+  createMoviesIndexTemplate:
+    handler: functions/createMoviesIndexTemplate.handler
+    environment:
+      ELASTICSEARCH_ENDPOINT:
+        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
+    iamRoleStatements:
+      - Action:
+          - es:ESHttpPut
+        Effect: Allow
+        Resource:
+          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::Join:
+              - ""
+              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+                - /*
+    memorySize: 128
+    timeout: 60
+
   indexMovies:
     handler: functions/indexMovies.handler
     environment:
