@@ -39,8 +39,8 @@ functions:
                 - /*
     timeout: 5
 
-  createMoviesIndexTemplate:
-    handler: functions/createMoviesIndexTemplate.handler
+  createIndexTemplates:
+    handler: functions/createIndexTemplates.handler
     environment:
       ELASTICSEARCH_ENDPOINT:
         Fn::GetAtt: [MoviesSearch, DomainEndpoint]

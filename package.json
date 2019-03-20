@@ -42,7 +42,7 @@
     "codegen": "gql-gen --config codegen.yml",
     "deploy": "sls deploy",
     "package": "sls package",
-    "postdeploy": "sls invoke --function createMoviesIndexTemplate",
+    "postdeploy": "sls invoke --function createIndexTemplates",
     "remove": "sls remove"
   }
 }
