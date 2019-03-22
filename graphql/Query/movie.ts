@@ -1,12 +1,7 @@
-import { IFieldResolver } from 'graphql-tools';
-
-import { Movie, QueryMovieArgs } from ':types/schema';
+import { QueryResolvers } from ':types/schema';
 import { getItem } from ':clients/aws/DynamoDB';
 
-const resolver: IFieldResolver<any, any, QueryMovieArgs> = async (
-  _source,
-  args
-): Promise<Movie | null> => {
+const resolver: QueryResolvers['movie'] = async (_source, args) => {
   const { createdAt, id } = args;
   const { Item = null } = await getItem({
     Key: {
