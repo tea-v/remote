@@ -69,4 +69,6 @@ export interface MoviesQueryArgs {
   after?: Maybe<string>;
 
   first?: number;
+
+  titleMatch?: Maybe<string>;
 }

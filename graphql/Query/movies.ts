@@ -12,13 +12,13 @@ const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
   _source,
   args
 ): Promise<MoviesConnection> => {
-  const { after, first = 20 } = args;
+  const { after, first = 20, titleMatch } = args;
   const {
     hits: { hits, total },
   } = await elasticsearch.search({
     body: {
       query: {
-        match_all: {},
+        ...(titleMatch ? { match: { title: titleMatch } } : { match_all: {} }),
       },
       search_after: after && +after,
     },
