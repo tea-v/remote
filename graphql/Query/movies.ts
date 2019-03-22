@@ -4,11 +4,11 @@ import elasticsearch from ':clients/aws/elasticsearch';
 import {
   MoviesConnection,
   MoviesEdge,
-  MoviesQueryArgs,
   PageInfo,
+  QueryMoviesArgs,
 } from ':types/schema';
 
-const resolver: IFieldResolver<any, any, MoviesQueryArgs> = async (
+const resolver: IFieldResolver<any, any, QueryMoviesArgs> = async (
   _source,
   args
 ): Promise<MoviesConnection> => {

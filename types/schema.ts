@@ -1,74 +1,60 @@
-export type Maybe<T> = T | null;
+type Maybe<T> = T | null;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+};
 
-// ====================================================
-// Interfaces
-// ====================================================
-
-export interface Node {
-  id: string;
-}
-
-export interface Connection {
+export type Connection = {
   pageInfo: PageInfo;
-}
+};
 
-export interface Edge {
-  cursor: string;
-}
+export type Edge = {
+  cursor: Scalars['String'];
+};
 
-// ====================================================
-// Types
-// ====================================================
+export type Movie = Node & {
+  createdAt: Scalars['Int'];
+  id: Scalars['ID'];
+  title: Scalars['String'];
+};
 
-export interface Query {
-  movie?: Maybe<Movie>;
-
-  movies: MoviesConnection;
-}
-
-export interface Movie extends Node {
-  createdAt: number;
-
-  id: string;
-
-  title: string;
-}
-
-export interface MoviesConnection extends Connection {
-  edges: MoviesEdge[];
-
+export type MoviesConnection = Connection & {
+  edges: Array<MoviesEdge>;
   pageInfo: PageInfo;
-}
+};
 
-export interface PageInfo {
-  endCursor?: Maybe<string>;
-
-  hasNextPage: boolean;
-
-  hasPreviousPage: boolean;
-
-  startCursor?: Maybe<string>;
-}
-
-export interface MoviesEdge extends Edge {
-  cursor: string;
-
+export type MoviesEdge = Edge & {
+  cursor: Scalars['String'];
   node: Movie;
-}
+};
 
-// ====================================================
-// Arguments
-// ====================================================
+export type Node = {
+  id: Scalars['ID'];
+};
 
-export interface MovieQueryArgs {
-  createdAt: number;
+export type PageInfo = {
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+};
 
-  id: string;
-}
-export interface MoviesQueryArgs {
-  after?: Maybe<string>;
+export type Query = {
+  movie?: Maybe<Movie>;
+  movies: MoviesConnection;
+};
 
-  first?: number;
+export type QueryMovieArgs = {
+  createdAt: Scalars['Int'];
+  id: Scalars['ID'];
+};
 
-  titleMatch?: Maybe<string>;
-}
+export type QueryMoviesArgs = {
+  after?: Maybe<Scalars['String']>;
+  first: Scalars['Int'];
+  titleMatch?: Maybe<Scalars['String']>;
+};
