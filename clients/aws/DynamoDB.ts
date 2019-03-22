@@ -1,6 +1,15 @@
+import https from 'https';
 import { DynamoDB } from 'aws-sdk';
 
-const client = new DynamoDB.DocumentClient();
+const agent = new https.Agent({
+  keepAlive: true,
+});
+
+const client = new DynamoDB.DocumentClient({
+  httpOptions: {
+    agent,
+  },
+});
 
 export const getItem = (params: DynamoDB.DocumentClient.GetItemInput) =>
   new Promise<DynamoDB.DocumentClient.GetItemOutput>((resolve, reject) => {
