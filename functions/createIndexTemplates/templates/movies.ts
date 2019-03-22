@@ -31,6 +31,5 @@ export default {
       number_of_shards: 1,
     },
   },
-  create: true,
   name: 'movies',
 };
