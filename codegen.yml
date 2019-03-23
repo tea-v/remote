@@ -1,6 +1,9 @@
 overwrite: true
 schema: ./graphql/schema.graphql
 generates:
+  ../teav/types/schema.ts:
+    plugins:
+      - typescript
   types/schema.ts:
     config:
       avoidOptionals: true
