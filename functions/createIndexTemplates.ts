@@ -8,4 +8,5 @@ import movies from './createIndexTemplates/templates/movies';
 
 export const handler: Handler = async () => {
   await elasticsearch.indices.putTemplate(movies);
+  return 'Successfully created index templates';
 };
