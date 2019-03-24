@@ -33,16 +33,6 @@ async function processRecord({ dynamodb, eventName }: DynamoDBRecord) {
   }
 }
 
-export const handler: DynamoDBStreamHandler = async (
-  event,
-  _context,
-  callback
-) => {
-  const { Records } = event;
-  try {
-    Records.forEach(processRecord);
-    callback(null);
-  } catch (error) {
-    callback(error);
-  }
+export const handler: DynamoDBStreamHandler = async ({ Records }) => {
+  Records.forEach(processRecord);
 };
