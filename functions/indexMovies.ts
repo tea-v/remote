@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
-import { DynamoDB, DynamoDBStreams } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
+import { DynamoDBRecord, DynamoDBStreamHandler } from 'aws-lambda';
 
 import elasticsearch from ':clients/aws/elasticsearch';
 
@@ -9,7 +10,7 @@ const { unmarshall } = DynamoDB.Converter;
 const index = 'movies';
 const type = 'movie';
 
-async function processRecord({ dynamodb, eventName }: DynamoDBStreams.Record) {
+async function processRecord({ dynamodb, eventName }: DynamoDBRecord) {
   if (dynamodb && dynamodb.NewImage) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { SequenceNumber, SizeBytes, StreamViewType, ...body } = unmarshall(
@@ -32,20 +33,16 @@ async function processRecord({ dynamodb, eventName }: DynamoDBStreams.Record) {
   }
 }
 
-export const handler = async (
-  event: DynamoDBStreams.GetRecordsOutput,
-  _context: unknown,
-  callback: (error: Error | null, result: string | null) => unknown
+export const handler: DynamoDBStreamHandler = async (
+  event,
+  _context,
+  callback
 ) => {
   const { Records } = event;
-  if (Records) {
-    try {
-      Records.forEach(processRecord);
-      callback(null, `Successfully processed ${Records.length} records`);
-    } catch (error) {
-      callback(error, null);
-    }
-  } else {
-    callback(null, 'Stream contained no records');
+  try {
+    Records.forEach(processRecord);
+    callback(null);
+  } catch (error) {
+    callback(error);
   }
 };
