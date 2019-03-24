@@ -3,7 +3,6 @@
 const dotenv = require('dotenv').config();
 const path = require('path');
 const serverlessWebpack = require('serverless-webpack');
-const webpack = require('webpack');
 const webpackNodeExternals = require('webpack-node-externals');
 
 if (dotenv.error) {

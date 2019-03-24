@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
+import Model from ':types/model';
 import elasticsearch from ':clients/aws/elasticsearch';
 import { QueryResolvers } from ':types/schema';
 
@@ -16,8 +19,8 @@ const resolver: QueryResolvers['movies'] = async (_source, args) => {
     size: first,
     sort: 'createdAt:desc',
   });
-  const edges = hits.map(({ _source }) => {
-    const { createdAt, id, title } = _source as Model.Movie;
+  const edges = hits.map(({ _source: movie }) => {
+    const { createdAt, id, title } = movie as Model['Movie'];
     return {
       cursor: `${createdAt}`,
       node: {

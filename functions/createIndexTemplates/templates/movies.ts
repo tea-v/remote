@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 export default {
   body: {
     index_patterns: ['movies'],

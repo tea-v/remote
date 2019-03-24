@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { ApolloServer } from 'apollo-server-lambda';
 
 import resolvers from ':graphql/resolvers';
