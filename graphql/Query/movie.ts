@@ -1,9 +1,9 @@
+import DynamoDB from ':clients/aws/DynamoDB';
 import { QueryResolvers } from ':types/schema';
-import { getItem } from ':clients/aws/DynamoDB';
 
 const resolver: QueryResolvers['movie'] = async (_source, args) => {
   const { createdAt, id } = args;
-  const { Item = null } = await getItem({
+  const { Item = null } = await DynamoDB.get({
     Key: {
       createdAt: {
         N: createdAt,
@@ -13,7 +13,7 @@ const resolver: QueryResolvers['movie'] = async (_source, args) => {
       },
     },
     TableName: 'movies',
-  });
+  }).promise();
   return (
     Item && {
       createdAt: Item.createdAt.N,
