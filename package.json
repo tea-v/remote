@@ -6,7 +6,7 @@
     "apollo-server-lambda": "^2.4.8",
     "aws-sdk": "^2.432.0",
     "elasticsearch": "^15.4.1",
-    "graphql": "^14.2.0",
+    "graphql": "^14.2.1",
     "http-aws-es": "^6.0.0"
   },
   "devDependencies": {
