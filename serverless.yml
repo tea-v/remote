@@ -34,7 +34,7 @@ functions:
         Resource:
           - Fn::GetAtt: [MoviesSearch, DomainArn]
           - Fn::Join:
-              - ""
+              - ''
               - - Fn::GetAtt: [MoviesSearch, DomainArn]
                 - /*
     timeout: 5
@@ -51,7 +51,7 @@ functions:
         Resource:
           - Fn::GetAtt: [MoviesSearch, DomainArn]
           - Fn::Join:
-              - ""
+              - ''
               - - Fn::GetAtt: [MoviesSearch, DomainArn]
                 - /*
     memorySize: 128
@@ -85,7 +85,7 @@ functions:
         Resource:
           - Fn::GetAtt: [MoviesSearch, DomainArn]
           - Fn::Join:
-              - ""
+              - ''
               - - Fn::GetAtt: [MoviesSearch, DomainArn]
                 - /*
     memorySize: 128

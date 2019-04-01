@@ -13,4 +13,4 @@ Resources:
         InstanceCount: 1
         InstanceType: t2.small.elasticsearch
         ZoneAwarenessEnabled: false
-      ElasticsearchVersion: "6.4"
+      ElasticsearchVersion: '6.4'
