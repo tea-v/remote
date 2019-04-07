@@ -61,6 +61,8 @@ export type QueryMoviesArgs = {
 
 import { GraphQLResolveInfo } from 'graphql';
 
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
@@ -128,50 +130,97 @@ export type DirectiveResolverFn<
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export type ConnectionResolvers<Context = any, ParentType = Connection> = {
+/** Mapping between all available schema types and the resolvers types */
+export type ResolversTypes = {
+  Query: Query;
+  Int: Scalars['Int'];
+  ID: Scalars['ID'];
+  Movie: Movie;
+  Node: Node;
+  String: Scalars['String'];
+  MoviesConnection: MoviesConnection;
+  Connection: Connection;
+  PageInfo: PageInfo;
+  Boolean: Scalars['Boolean'];
+  MoviesEdge: MoviesEdge;
+  Edge: Edge;
+};
+
+export type ConnectionResolvers<
+  Context = any,
+  ParentType = ResolversTypes['Connection']
+> = {
   __resolveType: TypeResolveFn<'MoviesConnection', ParentType, Context>;
-  pageInfo: Resolver<PageInfo, ParentType, Context>;
+  pageInfo: Resolver<ResolversTypes['PageInfo'], ParentType, Context>;
 };
 
-export type EdgeResolvers<Context = any, ParentType = Edge> = {
+export type EdgeResolvers<
+  Context = any,
+  ParentType = ResolversTypes['Edge']
+> = {
   __resolveType: TypeResolveFn<'MoviesEdge', ParentType, Context>;
-  cursor: Resolver<Scalars['String'], ParentType, Context>;
+  cursor: Resolver<ResolversTypes['String'], ParentType, Context>;
 };
 
-export type MovieResolvers<Context = any, ParentType = Movie> = {
-  createdAt: Resolver<Scalars['Int'], ParentType, Context>;
-  id: Resolver<Scalars['ID'], ParentType, Context>;
-  title: Resolver<Scalars['String'], ParentType, Context>;
+export type MovieResolvers<
+  Context = any,
+  ParentType = ResolversTypes['Movie']
+> = {
+  createdAt: Resolver<ResolversTypes['Int'], ParentType, Context>;
+  id: Resolver<ResolversTypes['ID'], ParentType, Context>;
+  title: Resolver<ResolversTypes['String'], ParentType, Context>;
 };
 
 export type MoviesConnectionResolvers<
   Context = any,
-  ParentType = MoviesConnection
+  ParentType = ResolversTypes['MoviesConnection']
 > = {
-  edges: Resolver<Array<MoviesEdge>, ParentType, Context>;
-  pageInfo: Resolver<PageInfo, ParentType, Context>;
+  edges: Resolver<Array<ResolversTypes['MoviesEdge']>, ParentType, Context>;
+  pageInfo: Resolver<ResolversTypes['PageInfo'], ParentType, Context>;
 };
 
-export type MoviesEdgeResolvers<Context = any, ParentType = MoviesEdge> = {
-  cursor: Resolver<Scalars['String'], ParentType, Context>;
-  node: Resolver<Movie, ParentType, Context>;
+export type MoviesEdgeResolvers<
+  Context = any,
+  ParentType = ResolversTypes['MoviesEdge']
+> = {
+  cursor: Resolver<ResolversTypes['String'], ParentType, Context>;
+  node: Resolver<ResolversTypes['Movie'], ParentType, Context>;
 };
 
-export type NodeResolvers<Context = any, ParentType = Node> = {
+export type NodeResolvers<
+  Context = any,
+  ParentType = ResolversTypes['Node']
+> = {
   __resolveType: TypeResolveFn<'Movie', ParentType, Context>;
-  id: Resolver<Scalars['ID'], ParentType, Context>;
+  id: Resolver<ResolversTypes['ID'], ParentType, Context>;
 };
 
-export type PageInfoResolvers<Context = any, ParentType = PageInfo> = {
-  endCursor: Resolver<Maybe<Scalars['String']>, ParentType, Context>;
-  hasNextPage: Resolver<Scalars['Boolean'], ParentType, Context>;
-  hasPreviousPage: Resolver<Scalars['Boolean'], ParentType, Context>;
-  startCursor: Resolver<Maybe<Scalars['String']>, ParentType, Context>;
+export type PageInfoResolvers<
+  Context = any,
+  ParentType = ResolversTypes['PageInfo']
+> = {
+  endCursor: Resolver<Maybe<ResolversTypes['String']>, ParentType, Context>;
+  hasNextPage: Resolver<ResolversTypes['Boolean'], ParentType, Context>;
+  hasPreviousPage: Resolver<ResolversTypes['Boolean'], ParentType, Context>;
+  startCursor: Resolver<Maybe<ResolversTypes['String']>, ParentType, Context>;
 };
 
-export type QueryResolvers<Context = any, ParentType = Query> = {
-  movie: Resolver<Maybe<Movie>, ParentType, Context, QueryMovieArgs>;
-  movies: Resolver<MoviesConnection, ParentType, Context, QueryMoviesArgs>;
+export type QueryResolvers<
+  Context = any,
+  ParentType = ResolversTypes['Query']
+> = {
+  movie: Resolver<
+    Maybe<ResolversTypes['Movie']>,
+    ParentType,
+    Context,
+    QueryMovieArgs
+  >;
+  movies: Resolver<
+    ResolversTypes['MoviesConnection'],
+    ParentType,
+    Context,
+    QueryMoviesArgs
+  >;
 };
 
 export type Resolvers<Context = any> = {
