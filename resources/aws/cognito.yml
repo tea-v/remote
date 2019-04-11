@@ -1,5 +1,5 @@
 Resources:
-  ApiGatewayAuthorizer:
+  ApolloServerApiGatewayAuthorizer:
     Type: AWS::ApiGateway::Authorizer
     Properties:
       IdentitySource: method.request.header.Authorization

@@ -1,5 +1,5 @@
 Resources:
-  MoviesSearch:
+  ElasticsearchDomainMovies:
     Type: AWS::Elasticsearch::Domain
     Properties:
       DomainName: remote

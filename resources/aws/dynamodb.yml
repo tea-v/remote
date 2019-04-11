@@ -1,5 +1,5 @@
 Resources:
-  MoviesTable:
+  DynamoDBTableMovies:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:

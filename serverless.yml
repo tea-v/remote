@@ -11,12 +11,12 @@ functions:
     handler: functions/apolloServer.handler
     environment:
       ELASTICSEARCH_ENDPOINT:
-        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
+        Fn::GetAtt: [ElasticsearchDomainMovies, DomainEndpoint]
     events:
       - http:
           authorizer:
             authorizerId:
-              Ref: ApiGatewayAuthorizer
+              Ref: ApolloServerApiGatewayAuthorizer
             type: COGNITO_USER_POOLS
           cors: true
           method: post
@@ -27,15 +27,15 @@ functions:
           - dynamodb:Query
         Effect: Allow
         Resource:
-          - Fn::GetAtt: [MoviesTable, Arn]
+          - Fn::GetAtt: [DynamoDBTableMovies, Arn]
       - Action:
           - es:ESHttpPost
         Effect: Allow
         Resource:
-          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
           - Fn::Join:
               - ''
-              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+              - - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
                 - /*
     timeout: 5
 
@@ -43,16 +43,16 @@ functions:
     handler: functions/createIndexTemplates.handler
     environment:
       ELASTICSEARCH_ENDPOINT:
-        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
+        Fn::GetAtt: [ElasticsearchDomainMovies, DomainEndpoint]
     iamRoleStatements:
       - Action:
           - es:ESHttpPut
         Effect: Allow
         Resource:
-          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
           - Fn::Join:
               - ''
-              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+              - - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
                 - /*
     memorySize: 128
     timeout: 60
@@ -61,11 +61,11 @@ functions:
     handler: functions/indexMovies.handler
     environment:
       ELASTICSEARCH_ENDPOINT:
-        Fn::GetAtt: [MoviesSearch, DomainEndpoint]
+        Fn::GetAtt: [ElasticsearchDomainMovies, DomainEndpoint]
     events:
       - stream:
           arn:
-            Fn::GetAtt: [MoviesTable, StreamArn]
+            Fn::GetAtt: [DynamoDBTableMovies, StreamArn]
           batchSize: 100
           enabled: true
           type: dynamodb
@@ -77,16 +77,16 @@ functions:
           - dynamodb:ListStreams
         Effect: Allow
         Resource:
-          - Fn::GetAtt: [MoviesTable, Arn]
+          - Fn::GetAtt: [DynamoDBTableMovies, Arn]
       - Action:
           - es:ESHttpPost
           - es:ESHttpPut
         Effect: Allow
         Resource:
-          - Fn::GetAtt: [MoviesSearch, DomainArn]
+          - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
           - Fn::Join:
               - ''
-              - - Fn::GetAtt: [MoviesSearch, DomainArn]
+              - - Fn::GetAtt: [ElasticsearchDomainMovies, DomainArn]
                 - /*
     memorySize: 128
     timeout: 60
