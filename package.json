@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
-    "aws-sdk": "^2.439.0",
+    "aws-sdk": "^2.441.0",
     "elasticsearch": "^15.4.1",
     "graphql": "^14.2.1",
     "http-aws-es": "^6.0.0"
@@ -35,7 +35,7 @@
     "prettier": "^1.17.0",
     "serverless-iam-roles-per-function": "^1.0.4",
     "serverless-webpack": "^5.2.0",
-    "typescript": "^3.4.3",
+    "typescript": "^3.4.4",
     "webpack": "^4.30.0",
     "webpack-node-externals": "^1.7.2"
   },
